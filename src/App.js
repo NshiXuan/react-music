@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { memo } from 'react'
+import { useRoutes, HashRouter, Outlet } from 'react-router-dom'
 
-function App() {
+import routes from './router'
+
+import SXAppFooter from './components/app-footer'
+import SXAppHeader from './components/app-header'
+import SxAppPlayerBar from './pages/player/app-player-bar'
+import { Suspense } from 'react'
+
+const Layout = () => {
+  const element = useRoutes(routes)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <SXAppHeader />
+      <Suspense fallback={<div>page loading</div>}>
+        {element}
+      </Suspense>
+      <SXAppFooter />
+      <SxAppPlayerBar />
     </div>
-  );
+  )
 }
 
-export default App;
+const App = memo(() => {
+  return (
+    <HashRouter>
+      <Layout />
+    </HashRouter>
+  )
+})
+
+export default App
